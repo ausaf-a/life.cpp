@@ -1,3 +1,5 @@
+#ifndef life_hpp
+#define life_hpp
 #include <vector> 
 
 #define GRID_WIDTH 50
@@ -18,3 +20,4 @@ class Life {
     int rows; 
     int cols; 
 }; 
+#endif

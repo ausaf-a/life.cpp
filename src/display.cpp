@@ -1,16 +1,15 @@
 #include "display.hpp"
-#include <iostream>
+#include "config.hpp"
 
 Display::Display(int gw, int gh, int r, const std::string &title) : window(sf::VideoMode(gw * r, gh * r), title),
                                                                     square(sf::Vector2f(r, r)),
                                                                     life(gw, gh) {
-    this->rows = gw;
-    this->cols = gh;
+    this->rows = gh;
+    this->cols = gw;
     this->size = r;
     running = false;
-    square.setFillColor(sf::Color::White);
-    square.setOutlineThickness(1.0f);
-    square.setOutlineColor(sf::Color::Black);
+    square.setOutlineColor(COLOR_BORDER); 
+    square.setOutlineThickness(1.0f); 
 }
 
 Display::~Display(){
@@ -23,7 +22,7 @@ void Display::update() {
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < cols; x++) {
             square.setPosition(sf::Vector2f(x * size, y * size));
-            square.setFillColor(life.getCell(x, y) == 0 ? sf::Color::White : sf::Color::Red);
+            square.setFillColor(life.getCell(x, y) == 0 ? COLOR_DEAD : COLOR_ALIVE);
             window.draw(square);
         }
     }
@@ -40,6 +39,7 @@ void Display::handleEvents() {
         if (event.type == sf::Event::Closed) {
             window.close();
         } else if (event.type == sf::Event::MouseMoved) {
+            // std::cout << "mousemove" << std::endl; 
             if (mouseInWindow() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
                 handleMouseDrag();
             }
@@ -54,6 +54,10 @@ void Display::handleEvents() {
                 case sf::Keyboard::Space:
                     running = !running;
                     break;
+                case sf::Keyboard::R:
+                    running = false;
+                    life.reset(); 
+                    break; 
                 default:
                     break;
             }
@@ -70,7 +74,6 @@ bool Display::mouseInWindow() {
 
 void Display::handleMouseDrag() {
     sf::Vector2i m = mouseGridPosition();
-    std::cout << m.x << "," << m.y << std::endl; 
     life.setCell(m.x, m.y, 1);
 }
 

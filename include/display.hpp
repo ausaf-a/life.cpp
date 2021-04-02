@@ -1,3 +1,6 @@
+#ifndef display_hpp
+#define display_hpp
+
 #include <SFML/Graphics.hpp> 
 #include "life.hpp"
 
@@ -18,3 +21,5 @@ private:
     sf::Vector2i mouseGridPosition(); 
     void handleMouseDrag();   
 }; 
+
+#endif

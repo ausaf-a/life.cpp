@@ -18,7 +18,6 @@ Display::~Display(){
 
 void Display::update() {
     window.clear(sf::Color::Black);
-
     for (int y = 0; y < rows; y++) {
         for (int x = 0; x < cols; x++) {
             square.setPosition(sf::Vector2f(x * size, y * size));
@@ -41,7 +40,7 @@ void Display::handleEvents() {
         } else if (event.type == sf::Event::MouseMoved) {
             // std::cout << "mousemove" << std::endl; 
             if (mouseInWindow() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-                handleMouseDrag();
+                handleMouseLeftClick();
             }
             else if (mouseInWindow() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
                 handleMouseRightClick();
@@ -75,10 +74,14 @@ bool Display::mouseInWindow() {
     return (x >= 0 && x < cols && y >= 0 && y < rows);
 }
 
-void Display::handleMouseDrag() {
+void Display::handleMouseLeftClick() {
     sf::Vector2i m = mouseGridPosition();
     life.setCell(m.x, m.y, 1);
-    //life.setCell(m.x, m.y, life.getCell(m.x, m.y) == 0 ? 1 : 0);
+}
+
+void Display::handleMouseRightClick() {
+    sf::Vector2i m = mouseGridPosition();
+    life.setCell(m.x, m.y, 0);
 }
 
 sf::Vector2i Display::mouseGridPosition() {
@@ -88,8 +91,4 @@ sf::Vector2i Display::mouseGridPosition() {
     return sf::Vector2i(x, y);
 }
 
-void Display::handleMouseRightClick()
-{
-    sf::Vector2i m = mouseGridPosition();
-    life.setCell(m.x, m.y, 0);
-}
+

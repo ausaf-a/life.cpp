@@ -19,7 +19,7 @@ private:
     int rows, cols, size;
     bool mouseInWindow(); 
     sf::Vector2i mouseGridPosition(); 
-    void handleMouseDrag();
+    void handleMouseLeftClick();
     void handleMouseRightClick();
 }; 
 

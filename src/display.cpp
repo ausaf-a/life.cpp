@@ -43,6 +43,9 @@ void Display::handleEvents() {
             if (mouseInWindow() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
                 handleMouseDrag();
             }
+            else if (mouseInWindow() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+                handleMouseRightClick();
+            }
         } else if (event.type == sf::Event::KeyReleased) {
             if (event.key.code == sf::Keyboard::Escape) {
                 window.close();
@@ -75,6 +78,7 @@ bool Display::mouseInWindow() {
 void Display::handleMouseDrag() {
     sf::Vector2i m = mouseGridPosition();
     life.setCell(m.x, m.y, 1);
+    //life.setCell(m.x, m.y, life.getCell(m.x, m.y) == 0 ? 1 : 0);
 }
 
 sf::Vector2i Display::mouseGridPosition() {
@@ -82,4 +86,10 @@ sf::Vector2i Display::mouseGridPosition() {
     int x = m.x / size;
     int y = m.y / size;
     return sf::Vector2i(x, y);
+}
+
+void Display::handleMouseRightClick()
+{
+    sf::Vector2i m = mouseGridPosition();
+    life.setCell(m.x, m.y, 0);
 }
